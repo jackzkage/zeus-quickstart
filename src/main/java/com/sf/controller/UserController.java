@@ -33,7 +33,6 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         boolean a = subject.hasRole("admin");
 
-        log.debug(">>>>>>>>{}",String.valueOf(a));
         return new R(response);
     }
 

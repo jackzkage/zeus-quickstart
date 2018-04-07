@@ -5,10 +5,13 @@ import com.sf.auth.model.AuthDO;
 import com.sf.core.exception.BusinessException;
 import com.sf.mapper.SysUserMapper;
 import com.sf.model.SysUser;
+import com.sf.util.IPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +46,20 @@ public class AuthService {
                 .lastLoginTime(sysUser.getLastLoginTime()).build();
 
         return currentUser;
+    }
+
+    /**
+     * 登录操作之后记录信息
+     * @param userId
+     * @param request
+     */
+    public void updateInfoAfterLogin(Long userId, HttpServletRequest request){
+        String ip = IPUtil.getClientIpAddress(request);
+        SysUser user = new SysUser();
+        user.setLastLoginIp(ip);
+        user.setLastLoginTime(new Date());
+        user.setUserId(userId);
+        sysUserMapper.updateByPrimaryKeySelective(user);
     }
 
 }

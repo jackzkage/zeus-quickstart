@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * @author lijie.zhong
@@ -37,12 +39,14 @@ public class LoginController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public R<LoginResponse> login(LoginRequest request) {
+    public R<LoginResponse> login(LoginRequest request, HttpServletRequest httpServletRequest) {
         CurrentUser currentUser = authService.login(request.getUsername(), request.getPassword());
         LoginResponse response = new LoginResponse();
         response.setCurrentUser(currentUser);
         StatelessToken createToken = tokenManager.createToken(currentUser.getUserId().toString());
         response.setToken(createToken.getToken());
+        //更新最后登录信息
+        authService.updateInfoAfterLogin(currentUser.getUserId(),httpServletRequest);
         return R.msg(response);
     }
 
