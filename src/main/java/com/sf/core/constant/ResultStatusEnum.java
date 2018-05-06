@@ -1,9 +1,10 @@
 package com.sf.core.constant;
 
+
 /**
- * @author zhonglj
- * @date 2017/12/6
+ * @author lijie.zh
  */
+
 public enum ResultStatusEnum {
     SUCCESS("0", "成功"),
     ERROR(ErrorStatusEnum.DEFAULT_ERRROR.getValue(), ErrorStatusEnum.DEFAULT_ERRROR.getText());

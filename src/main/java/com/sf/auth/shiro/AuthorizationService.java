@@ -7,5 +7,5 @@ import java.util.List;
  * @date 2018/3/27
  */
 public interface AuthorizationService {
-    public List<String> selectRoles(String principal);
+    List<String> selectRoles(String principal);
 }

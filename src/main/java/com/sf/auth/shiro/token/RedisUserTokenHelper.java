@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * ehcache用户令牌帮助类
  *
- * @author luanhy
+ * @author lijie.zh
  */
 @Setter
 @Getter

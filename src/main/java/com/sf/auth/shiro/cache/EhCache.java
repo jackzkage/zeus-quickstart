@@ -31,6 +31,7 @@ import java.util.*;
  *
  * @since 0.2
  */
+@SuppressWarnings("unchecked")
 public class EhCache<K, V> implements Cache<K, V> {
 
     /**

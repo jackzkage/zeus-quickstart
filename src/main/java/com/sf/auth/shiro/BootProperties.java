@@ -3,20 +3,25 @@ package com.sf.auth.shiro;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author lijie.zh
+ */
 @Component
-@ConfigurationProperties(prefix = "shiro.token")
 @Setter
 @Getter
 public class BootProperties {
-
+    @Value("${auth.token.cacheType:1}")
     private String cacheType;
 
-    private String key;
-
+    @Value("${auth.token.expirateTime:3600}")
     private long expirateTime;
 
+    @Value("${auth.token.enableCookies:false}")
+    private boolean enableCookies;
+
+    @Value("${system.enableFriendlyError:false}")
+    private boolean enableFriendlyError;
 
 }

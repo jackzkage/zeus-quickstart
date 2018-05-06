@@ -3,10 +3,10 @@ package com.sf.core.mvc;
 import com.sf.core.constant.ResultStatusEnum;
 
 /**
- * @author zhonglj
- * @date 2017/12/6
+ * @param <T>
+ * @author lijie.zh
  */
-public class R<T extends IResponse> extends AbstractResultMsg {
+public final class R<T extends IResponse> extends AbstractResultMsg {
 
     private R() {
         setSuccess(true);
@@ -26,36 +26,35 @@ public class R<T extends IResponse> extends AbstractResultMsg {
         setCode(code);
     }
 
-    public R(T data) {
+    private <T extends IResponse> R(T data) {
         setSuccess(true);
         setCode(ResultStatusEnum.SUCCESS.getValue());
         setMessage(ResultStatusEnum.SUCCESS.getText());
         setData(data);
     }
 
-    public static R msg() {
+    public static R success() {
         return new R<>();
     }
 
-    public static R msg(String message) {
+    public static R success(String message) {
         return new R<>(message);
     }
 
-    public static <T extends IResponse> R msg(T data) {
-        return new R<>(data);
+    public static R success(String message, String code) {
+        return new R<>(true, message, code);
     }
 
-    public static  R msg(boolean success, String message, String code) {
-        return new R<>(success,message,code);
+    public static <T extends IResponse> R<T> success(T data) {
+        return new R<T>(data);
     }
 
     public static R error(String message) {
-        return new R<>(false,message,ResultStatusEnum.SUCCESS.getValue());
+        return new R<>(false, message, ResultStatusEnum.SUCCESS.getValue());
     }
 
-
-    public static R error(String message,String code) {
-        return new R<>(false,message,code);
+    public static R error(String message, String code) {
+        return new R<>(false, message, code);
     }
 
 }

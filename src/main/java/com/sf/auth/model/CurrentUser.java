@@ -1,9 +1,6 @@
 package com.sf.auth.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sf.domain.User;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +9,7 @@ import java.util.Date;
 
 /**
  * Token的Model类，可以增加字段提高安全性，例如时间戳、url签名
- * @author zhonglj
+ * @author lijie.zh
  */
 @Data
 @Builder

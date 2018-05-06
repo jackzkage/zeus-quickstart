@@ -14,6 +14,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 
+/**
+ * @author lijie.zh
+ */
 public class StatelessRealm extends AuthorizingRealm {
 
     private TokenManager tokenManager;

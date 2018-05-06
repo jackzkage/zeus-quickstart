@@ -15,10 +15,12 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
  * Swagger 文档配置
- * @author zhonglj
+ *
+ * @author lijie.zh
  */
 @Configuration
 @EnableSwagger2
+@SuppressWarnings("unchecked")
 public class SwaggerConfig {
 
     /**

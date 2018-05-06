@@ -21,38 +21,20 @@ import java.io.IOException;
 
 
 /**
- * 无状态授权过滤器
+ * 用户登出过滤器
  *
- * @author luanhy
+ * @author lijie.zh
  */
 @Slf4j
 @Setter
 @Getter
-public class LogoutFilter extends AccessControlFilter {
+public class LogoutFilter extends AbstractBaseFilter {
 
     private TokenManager tokenManager;
 
-    private void corsResponseHeader(HttpServletResponse httpResponse) {
-        httpResponse.setHeader("Access-control-Allow-Origin", "*");
-        httpResponse.setHeader("Access-Control-Allow-Methods", "*");
-        httpResponse.setHeader("Access-Control-Allow-Headers", "*");
-    }
 
     @Override
-    public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-            corsResponseHeader(httpResponse);
-            httpResponse.setStatus(HttpStatus.OK.value());
-
-            return false;
-        }
-        return super.onPreHandle(request, response, mappedValue);
-    }
-
-    @Override
-    protected boolean isAccessAllowed(ServletRequest request,ServletResponse response, Object mappedValue) throws Exception {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -79,28 +61,6 @@ public class LogoutFilter extends AccessControlFilter {
         }
 
         return true;
-    }
-
-    @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return false;
-    }
-
-    /**
-     * 登录失败时默认返回401状态码
-     * @param response
-     * @param errorMsg
-     * @throws IOException
-     */
-    private void onLoginFail(ServletResponse response, String errorMsg) throws IOException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        corsResponseHeader(httpResponse);
-        httpResponse.setStatus(HttpStatus.OK.value());
-        httpResponse.setContentType("application/json");
-        httpResponse.setCharacterEncoding("utf-8");
-        R resultMsg = R.error(errorMsg);
-        httpResponse.getWriter().write(JSON.toJSONString(resultMsg));
-        httpResponse.getWriter().close();
     }
 
 }

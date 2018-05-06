@@ -6,12 +6,13 @@ import java.io.Serializable;
 
 
 /**
+ * @param <T>
  * @author lijie.zhong
  */
 @Data
 public abstract class AbstractResultMsg<T> implements Serializable {
 
-    protected  String code;
+    protected String code;
 
     protected String message;
 

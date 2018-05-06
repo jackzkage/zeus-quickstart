@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 自定义的参数绑定校验处理器
- * @author zhonglj
+ *
+ * @author lijie.zh
  */
 public class CustomModelAttributeMethodProcessor extends ModelAttributeMethodProcessor {
 
@@ -30,14 +31,15 @@ public class CustomModelAttributeMethodProcessor extends ModelAttributeMethodPro
     @Override
     protected void validateIfApplicable(final WebDataBinder binder, final MethodParameter parameter) {
 
-        if (binder.getTarget()  instanceof IRequest) {
+        if (binder.getTarget() instanceof IRequest) {
             try {
                 binder.validate();
-                if(!binder.getBindingResult().hasErrors()){
+                if (!binder.getBindingResult().hasErrors()) {
                     ((IRequest) binder.getTarget()).check();
                 }
             } catch (InvalidParameterException e) {
-                binder.getBindingResult().addError(new ObjectError(binder.getTarget().getClass().getName(),new String[]{e.getErrCode()}, new Object[]{}, e.getErrMsg()));
+                binder.getBindingResult().addError(new ObjectError(binder.getTarget().getClass().getName(),
+                        new String[]{e.getErrCode()}, new Object[]{}, e.getErrMsg()));
             }
 
             return;

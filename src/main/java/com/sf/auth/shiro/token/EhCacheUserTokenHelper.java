@@ -9,11 +9,14 @@ import org.apache.shiro.cache.CacheManager;
 /**
  * ehcache用户令牌帮助类
  *
- * @author luanhy
+ * @author lijie.zh
  */
+
 @Getter
 @Setter
 @Slf4j
+@SuppressWarnings("unchecked")
+
 public class EhCacheUserTokenHelper implements UserTokenOperHelper {
 
     /**

@@ -21,7 +21,7 @@ public class ValidatorConfig {
 //    @Bean
 //    public MessageSource messageSource() {
 //        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("msg");
+//        messageSource.setBasename("success");
 //        messageSource.setDefaultEncoding("UTF-8");
 //        messageSource.setUseCodeAsDefaultMessage(true);
 //        return messageSource;

@@ -2,40 +2,43 @@ package com.sf.auth.shiro.token;
 
 import org.apache.shiro.authc.AuthenticationToken;
 
+/**
+ * @author lijie.zh
+ */
 public class StatelessToken implements AuthenticationToken {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private String userCode;
-	
-	private String token;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public StatelessToken(String userCode, String token){
-		this.userCode = userCode;
-		this.token = token;
-	}
-	
+    private String userCode;
 
-	@Override
-	public Object getPrincipal() {
-		return userCode;
-	}
+    private String token;
 
-	@Override
-	public Object getCredentials() {
-		return token;
-	}
-	
-	public String getUserCode() {
-		return userCode;
-	}
+    public StatelessToken(String userCode, String token) {
+        this.userCode = userCode;
+        this.token = token;
+    }
 
-	public String getToken() {
-		return token;
-	}
+
+    @Override
+    public Object getPrincipal() {
+        return userCode;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return token;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public String getToken() {
+        return token;
+    }
 
 
 }

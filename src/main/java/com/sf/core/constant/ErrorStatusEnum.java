@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zhonglj
+ * @author lijie.zh
  */
-
 public enum ErrorStatusEnum {
 
     DEFAULT_ERRROR("-1", "服务器异常"),
@@ -85,7 +84,6 @@ public enum ErrorStatusEnum {
         }
         throw new IllegalArgumentException("值非法，没有符合的枚举对象");
     }
-
 
     public static List<Map> getAll() {
         List<Map> ls = new ArrayList<>();

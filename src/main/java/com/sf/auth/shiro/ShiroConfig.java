@@ -32,11 +32,14 @@ import java.util.Map;
 
 /**
  * shiro配置
+ *
+ * @author lijie.zh
  */
 @Configuration
 @Setter
 @Getter
 @Slf4j
+@SuppressWarnings("unchecked")
 public class ShiroConfig {
 
     /**
@@ -53,12 +56,12 @@ public class ShiroConfig {
         DefaultTokenManagerImpl tokenManager = new DefaultTokenManagerImpl();
 
 
-        if(bootProperties.getCacheType().equals("redis")){
+        if (bootProperties.getCacheType().equals("redis")) {
             RedisUserTokenHelper userTokenHelper = new RedisUserTokenHelper();
             userTokenHelper.setRedis(redisTemplate);
             userTokenHelper.setExpirateTime(bootProperties.getExpirateTime());
             tokenManager.setUserTokenOperHelper(userTokenHelper);
-        }else{
+        } else {
             EhCacheUserTokenHelper userTokenHelper = new EhCacheUserTokenHelper();
             userTokenHelper.setCacheManager(ehCacheManager());
             tokenManager.setUserTokenOperHelper(userTokenHelper);
@@ -88,15 +91,17 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public StatelessRealm statelessRealm(TokenManager tokenManager, @Qualifier("authUserService") PrincipalService principalService, MyAuthService authorizationService, @Qualifier("redisTemplate") RedisTemplate redisTemplate, BootProperties bootPropertiess) {
+    public StatelessRealm statelessRealm(TokenManager tokenManager, @Qualifier("authUserService") PrincipalService
+            principalService, MyAuthService authorizationService, @Qualifier("redisTemplate") RedisTemplate
+                                                 redisTemplate, BootProperties bootPropertiess) {
         log.info("ShiroConfig.getStatelessRealm()");
         StatelessRealm realm = new StatelessRealm();
         realm.setTokenManager(tokenManager);
         realm.setPrincipalService(principalService);
         realm.setAuthorizationService(authorizationService);
-        if(bootPropertiess.getCacheType().equals("redis")){
+        if (bootPropertiess.getCacheType().equals("redis")) {
             realm.setCacheManager(redisCacheManager(redisTemplate));
-        }else{
+        } else {
             realm.setCacheManager(ehCacheManager());
         }
         return realm;
@@ -112,7 +117,6 @@ public class ShiroConfig {
         em.setCacheManagerConfigFile("classpath:config/ehcache.xml");
         return em;
     }
-
 
 
     /**
@@ -141,7 +145,8 @@ public class ShiroConfig {
 
         //禁用sessionStorage
         DefaultSubjectDAO de = (DefaultSubjectDAO) manager.getSubjectDAO();
-        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = (DefaultSessionStorageEvaluator) de.getSessionStorageEvaluator();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = (DefaultSessionStorageEvaluator) de
+                .getSessionStorageEvaluator();
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
 
         manager.setRealm(statelessRealm);
@@ -202,8 +207,9 @@ public class ShiroConfig {
         //1， 相同url规则，后面定义的会覆盖前面定义的(执行的时候只执行最后一个)。
         //2， 两个url规则都可以匹配同一个url，只执行第一个
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/register", "anon");
 
+        filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "statelessAuthc");
 
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);

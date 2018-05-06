@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * @author zhonglj
+ * @author lijie.zh
  */
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
@@ -57,7 +57,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 //    @Bean
 //    public MessageSource messageSource() {
 //        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("msg");
+//        messageSource.setBasename("success");
 //        messageSource.setDefaultEncoding("UTF-8");
 //        return messageSource;
 //    }

@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sf.mapper.SysUserMapper">
+<mapper namespace="com.sf.web.dao.mapper.SysUserMapper">
 
-    <select id="queryByStaffId"  resultType="com.sf.model.SysUser">
-		SELECT * FROM TF_SYS_USER WHERE STAFF_ID = #{USERNAME} OR USER_NAME = #{USERNAME}
+    <select id="queryByStaffId"  resultType="com.sf.web.dao.model.SysUser">
+		SELECT * FROM TF_SYS_USER WHERE STAFF_ID = #{USERNAME} OR MOBILE_NO = #{USERNAME}
 	</select>
 
 </mapper>

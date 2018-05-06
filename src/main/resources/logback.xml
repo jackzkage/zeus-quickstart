@@ -34,16 +34,28 @@
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger [%L] - %msg%n</pattern>
 		</encoder>
 	</appender>
+
+
+	<appender name="Logstash" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder class="net.logstash.logback.encoder.LogstashEncoder" charset="UTF-8">
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>./logs/log-stash-%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
 	
 	<logger name="com.sf" level="DEBUG" />
 	<logger name="net" level="ERROR" />
 	<logger name="org.springframework" level="ERROR" />
 	<logger name="org.apache.zookeeper" level="INFO" />
 	<logger name="com.alibaba" level="INFO" />
-	
+
+
 	<root level="INFO">
 		<appender-ref ref="Stdout" />
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="ErrorFile" />
-	</root>
+        <appender-ref ref="Logstash" />
+
+    </root>
 </configuration>

@@ -1,10 +1,16 @@
 package com.sf.core;
 
+import com.sf.auth.shiro.BootProperties;
 import com.sf.core.constant.ResultStatusEnum;
 import com.sf.core.exception.BusinessException;
 import com.sf.core.mvc.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.ibatis.exceptions.IbatisException;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.mybatis.spring.MyBatisSystemException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -20,11 +26,15 @@ import java.util.List;
 /**
  * 添加全局异常处理流程
  *
- * @author zhonglj
+ * @author lijie.zh
  */
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @Autowired
+    BootProperties bootProperties;
+
 
     /**
      * validtor 参数绑定异常处理
@@ -36,6 +46,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
+    @SuppressWarnings("unchecked")
     public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) throws Exception {
         List<String> invalidArguments = new ArrayList<>();
 
@@ -49,7 +60,6 @@ public class GlobalExceptionHandler {
         }
 
         String errorStr = StringUtils.join(invalidArguments, ",");
-
         return R.error(errorStr);
     }
 
@@ -69,7 +79,7 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 处理业务异常
+     * 业务异常处理
      *
      * @param request
      * @param exception
@@ -79,9 +89,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BusinessException.class)
     public Object businessExceptionHandler(HttpServletRequest request, BusinessException exception) {
         log.error("业务异常：{}, {}", exception.getErrMsg(), exception.getStackTrace().length > 0 ? exception.getStackTrace()[0] : "");
-        return R.error( exception.getErrMsg(), StringUtils.isBlank(exception.getErrCode()) ? ResultStatusEnum.ERROR.getValue() : exception.getErrCode());
+        return R.error(exception.getErrMsg(), StringUtils.isBlank(exception.getErrCode()) ? ResultStatusEnum.ERROR.getValue() : exception.getErrCode());
     }
 
+
+    /**
+     * MyBatis 异常处理
+     *
+     * @param request
+     * @param exception
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(value = MyBatisSystemException.class)
+    public Object myBatisSystemExceptionHandler(HttpServletRequest request, MyBatisSystemException exception) {
+        log.error("mybatis异常", exception);
+        return gerExceptionMessage(exception);
+    }
 
     /**
      * 未知异常的统一的处理
@@ -92,8 +116,20 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public Object exceptionHandler(HttpServletRequest request, Exception exception) {
+    public Object unknownExceptionHandler(HttpServletRequest request, Exception exception) {
         log.error("系统异常", exception);
-        return R.error(exception.getMessage());
+        return gerExceptionMessage(exception);
+
+    }
+
+    private R gerExceptionMessage(Exception exception) {
+        if (bootProperties.isEnableFriendlyError()) {
+            return R.error("系统错误，请稍后再试！");
+        }
+        String message = exception.getMessage();
+        if (StringUtils.isBlank(message)) {
+            message = null != exception.getCause() ? exception.getCause().getMessage() : "未知错误";
+        }
+        return R.error(message);
     }
 }

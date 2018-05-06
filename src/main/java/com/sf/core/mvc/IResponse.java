@@ -1,9 +1,8 @@
 package com.sf.core.mvc;
 
+
 /**
- *
- * @author zhonglj
- * @date 2017/12/6
+ * @author lijie.zh
  */
 public interface IResponse {
 
