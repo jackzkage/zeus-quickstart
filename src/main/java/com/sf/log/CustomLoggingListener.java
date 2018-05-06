@@ -3,6 +3,7 @@ package com.sf.log;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sf.log.define.AccessLoggerInfo;
 import com.sf.log.define.AccessLoggerListener;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.*;
@@ -11,6 +12,7 @@ import java.util.concurrent.*;
  * @author lijie.zh
  */
 @Component
+@Slf4j
 public class CustomLoggingListener implements AccessLoggerListener {
     BlockingQueue<AccessLoggerInfo> queue = new LinkedBlockingQueue<AccessLoggerInfo>();
 
@@ -25,7 +27,7 @@ public class CustomLoggingListener implements AccessLoggerListener {
         executor.execute(() -> {
             AccessLoggerInfo info = queue.poll();
             if (info != null) {
-                System.out.println(Thread.currentThread().getName() + "获取到一个" + AccessLoggerInfo.class.getSimpleName() + "对象" + info);
+                log.info(Thread.currentThread().getName() + "获取到一个" + AccessLoggerInfo.class.getSimpleName() + "对象" + info.getUrl());
             }
         });
     }

@@ -6,16 +6,16 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.List;
 
 
 /**
- * @author lijie.zh
+ * @author zhonglj
  */
 @Configuration
-public class MvcConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig extends WebMvcConfigurationSupport {
 
 
 
@@ -57,7 +57,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 //    @Bean
 //    public MessageSource messageSource() {
 //        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("success");
+//        messageSource.setBasename("message");
 //        messageSource.setDefaultEncoding("UTF-8");
 //        return messageSource;
 //    }

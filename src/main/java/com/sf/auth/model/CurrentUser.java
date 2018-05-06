@@ -25,7 +25,7 @@ public class CurrentUser implements Serializable{
 
     private String email;
 
-    private int sex;
+    private Integer sex;
 
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date lastLoginTime;

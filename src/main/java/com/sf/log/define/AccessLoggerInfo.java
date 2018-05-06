@@ -16,7 +16,7 @@ import java.util.function.Function;
  * @author zhouhao
  * @since 3.0
  */
-public class AccessLoggerInfo {
+public class AccessLoggerInfo implements Serializable{
 
     /**
      * 日志id
